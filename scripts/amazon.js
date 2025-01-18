@@ -64,37 +64,33 @@ const addedTimeout = {};
 document.querySelectorAll('.js-addtocart').forEach((button) => {
     button.addEventListener('click', () => {
         const productId = button.dataset.product;
-        let matching;
-        cart.forEach((item)=>{
-            if(productId === item.productId){
-                matching = item;
-            }
-        });
-        if(matching){
-            matching.quantity += 1;
-        }else{
+       
+        const quantitySelector = document.querySelector(`.select-${productId}`);
+        const selectedQuantity = Number(quantitySelector.value);
+        
+        let matching = cart.find((item) => item.productId === productId);
+
+        if (matching) {
+            matching.quantity += selectedQuantity;
+        } else {
             cart.push({
                 productId: productId,
-                quantity: 1
+                quantity: selectedQuantity,
             });
         }
-        const quantitySelector = document.querySelector(`.select-${productId}`).value;
 
-        let cartQuantity = Number(quantitySelector);
-        cart.forEach((item) => {
-            cartQuantity += item.quantity;
-        })
-        
-        document.querySelector('.cart-quantity').innerHTML = cartQuantity;
-        
+        const totalCartQuantity = cart.reduce((total, item) => total + item.quantity, 0);
+
+        document.querySelector('.cart-quantity').innerHTML = totalCartQuantity;
+
         const added = document.querySelector(`.add-${productId}`);
         added.classList.add('opacity');
 
         const previousTimeoutId = addedTimeout[productId];
-        if (previousTimeoutId){
+        if (previousTimeoutId) {
             clearTimeout(previousTimeoutId);
         }
-        const timeoutId = setTimeout(function(){
+        const timeoutId = setTimeout(() => {
             added.classList.remove('opacity');
         }, 2000);
         addedTimeout[productId] = timeoutId;
