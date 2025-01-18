@@ -1,4 +1,4 @@
-import { cart } from '../data/cart.js';
+import { cart ,addToCart} from '../data/cart.js';
 import { products } from '../data/products.js';
 
 let productsHTML = '';
@@ -57,18 +57,7 @@ products.forEach((product) => {
 });
 document.querySelector('.js-products-grid').innerHTML = productsHTML;
 
-function addToCart(productId){
-  let matching = cart.find((item) => item.productId === productId);
-  const selectedQuantity = Number(document.querySelector(`.select-${productId}`).value);
-  if (matching) {
-    matching.quantity += selectedQuantity;
-  } else {
-    cart.push({
-      productId: productId,
-      quantity: selectedQuantity,
-    });
-  }
-};
+
 
 function updatedItem(){
   let cartQuantity = 0; 
@@ -91,7 +80,7 @@ function AddedMassege(productId){
       added.classList.remove('opacity');
   }, 2000);
   addedTimeout[productId] = timeoutId;
-}
+} 
 
 document.querySelectorAll('.js-addtocart').forEach((button) => {
     button.addEventListener('click', () => {
