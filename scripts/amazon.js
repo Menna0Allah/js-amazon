@@ -1,3 +1,5 @@
+import { cart } from '../data/cart.js';
+import { products } from '../data/products.js';
 
 let productsHTML = '';
 
@@ -87,7 +89,7 @@ document.querySelectorAll('.js-addtocart').forEach((button) => {
         
         const added = document.querySelector(`.add-${productId}`);
         added.classList.add('opacity');
-        
+
         const previousTimeoutId = addedTimeout[productId];
         if (previousTimeoutId){
             clearTimeout(previousTimeoutId);
