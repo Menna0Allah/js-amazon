@@ -2,7 +2,6 @@ import { cart } from '../data/cart.js';
 import { products } from '../data/products.js';
 
 let productsHTML = '';
-
 products.forEach((product) => {
     productsHTML += `
         <div class="product-container">
@@ -56,43 +55,51 @@ products.forEach((product) => {
         </div>
     `;
 });
-
 document.querySelector('.js-products-grid').innerHTML = productsHTML;
 
+function addToCart(productId){
+  let matching = cart.find((item) => item.productId === productId);
+  const selectedQuantity = Number(document.querySelector(`.select-${productId}`).value);
+  if (matching) {
+    matching.quantity += selectedQuantity;
+  } else {
+    cart.push({
+      productId: productId,
+      quantity: selectedQuantity,
+    });
+  }
+};
+
+function updatedItem(){
+  let cartQuantity = 0; 
+  cart.forEach((item) => {
+    cartQuantity += item.quantity;
+  })
+  document.querySelector('.cart-quantity').innerHTML = cartQuantity;
+};
+
 const addedTimeout = {};
+function AddedMassege(productId){
+  const added = document.querySelector(`.add-${productId}`);
+  added.classList.add('opacity');
+  
+  const previousTimeoutId = addedTimeout[productId];
+  if (previousTimeoutId) {
+      clearTimeout(previousTimeoutId);
+  }
+  const timeoutId = setTimeout(() => {
+      added.classList.remove('opacity');
+  }, 2000);
+  addedTimeout[productId] = timeoutId;
+}
 
 document.querySelectorAll('.js-addtocart').forEach((button) => {
     button.addEventListener('click', () => {
         const productId = button.dataset.product;
-       
-        const quantitySelector = document.querySelector(`.select-${productId}`);
-        const selectedQuantity = Number(quantitySelector.value);
         
-        let matching = cart.find((item) => item.productId === productId);
+        addToCart(productId);
+        updatedItem();
+        AddedMassege(productId);
 
-        if (matching) {
-            matching.quantity += selectedQuantity;
-        } else {
-            cart.push({
-                productId: productId,
-                quantity: selectedQuantity,
-            });
-        }
-
-        const totalCartQuantity = cart.reduce((total, item) => total + item.quantity, 0);
-
-        document.querySelector('.cart-quantity').innerHTML = totalCartQuantity;
-
-        const added = document.querySelector(`.add-${productId}`);
-        added.classList.add('opacity');
-
-        const previousTimeoutId = addedTimeout[productId];
-        if (previousTimeoutId) {
-            clearTimeout(previousTimeoutId);
-        }
-        const timeoutId = setTimeout(() => {
-            added.classList.remove('opacity');
-        }, 2000);
-        addedTimeout[productId] = timeoutId;
     });
 });
