@@ -3,6 +3,7 @@ import { products } from "../data/products.js";
 import { formatPrice } from "./utils/money.js";
 
 let cartHTML= '';
+
 cart.forEach((item) => {
 
     let matching;
@@ -10,7 +11,8 @@ cart.forEach((item) => {
         if(product.id === item.productId){
             matching = product;
         };
-    });
+      });
+      
     
     cartHTML+=`
     <div class="cart-item-container js-cart-container-${matching.id}">
@@ -103,4 +105,11 @@ document.querySelectorAll('.js-delete-link').forEach((deleteButton) => {
   });
 });
 
+let cartQuantity = 0;
 
+cart.forEach((cartItem) => {
+  cartQuantity += cartItem.quantity;
+});
+
+document.querySelector('.return-to-home-link')
+  .innerHTML = `${cartQuantity} items`;
