@@ -102,14 +102,21 @@ document.querySelectorAll('.js-delete-link').forEach((deleteButton) => {
     const deleteItemId = deleteButton.dataset.deleteId; 
     removeItem(deleteItemId);
     document.querySelector(`.js-cart-container-${deleteItemId}`).remove();
+    updateCartQuantity();
+    // call it when click delete
   });
 });
 
-let cartQuantity = 0;
+function updateCartQuantity(){
+  let cartQuantity = 0;
 
-cart.forEach((cartItem) => {
-  cartQuantity += cartItem.quantity;
-});
+  cart.forEach((cartItem) => {
+    cartQuantity += cartItem.quantity;
+  });
 
-document.querySelector('.return-to-home-link')
-  .innerHTML = `${cartQuantity} items`;
+  document.querySelector('.return-to-home-link')
+    .innerHTML = `${cartQuantity} items`;
+}
+
+updateCartQuantity();
+// to call it when the page loads
