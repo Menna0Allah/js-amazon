@@ -41,3 +41,11 @@ export function removeItem(productId){
   saveToStorage();
 }
 
+export function calculateCartQuantity(){
+  let cartQuantity = 0;
+  cart.forEach((cartItem) => {
+    cartQuantity += cartItem.quantity;
+  });
+  return cartQuantity;
+  // make it return to use it to put it in html element
+}
