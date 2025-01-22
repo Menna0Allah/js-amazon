@@ -226,6 +226,6 @@
   }
 } 
 
-.edit{
+.is-editing-quantity .quantity-label, .is-editing-quantity .update-quantity-link {
   display: none;
 }
