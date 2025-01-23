@@ -1,4 +1,4 @@
-import { cart, removeItem,calculateCartQuantity} from "../data/cart.js";
+import { cart, removeItem, calculateCartQuantity, updateQuantity} from "../data/cart.js";
 import { products } from "../data/products.js";
 import { formatPrice } from "./utils/money.js";
 
@@ -33,12 +33,12 @@ cart.forEach((item) => {
                 </div>
                 <div class="product-quantity">
                   <span>
-                    Quantity: <span class="quantity-label">${item.quantity}</span>
+                    Quantity: <span class="quantity-label js-quantity-label-${matching.id}">${item.quantity}</span>
                   </span>
                   <span class="update-quantity-link link-primary js-update-link" data-update-id="${matching.id}">
                     Update
                   </span>
-                  <input class="quantity-input input-quantity-${matching.id}">
+                  <input type="number" class="quantity-input input-quantity-${matching.id}">
                   <span class="save-quantity-link link-primary" data-save-id="${matching.id}">Save</span>
                   <span class="delete-quantity-link link-primary js-delete-link" data-delete-id="${matching.id}">
                     Delete
@@ -110,7 +110,7 @@ document.querySelectorAll('.js-delete-link').forEach((deleteButton) => {
 });
 
 function updateCartQuantity(){
-  let cartQuantity = calculateCartQuantity();
+  let cartQuantity = Number(calculateCartQuantity());
   
   document.querySelector('.return-to-home-link')
       .innerHTML = `${cartQuantity} items`;
@@ -131,6 +131,15 @@ document.querySelectorAll('.save-quantity-link').forEach((saveButton) => {
   saveButton.addEventListener('click', () => {
     const saveItemId = saveButton.dataset.saveId;
     document.querySelector(`.js-cart-container-${saveItemId}`).classList.remove('is-editing-quantity');
-    const newQuantity = document.querySelector(`.input-quantity-${saveItemId}`).value;
+
+    const x = document.querySelector(`.input-quantity-${saveItemId}`);
+    const newQuantity = Number(x.value);
+
+    updateQuantity(saveItemId,newQuantity);
+
+    const quantityLabel = document.querySelector(`.js-quantity-label-${saveItemId}`);
+    
+    quantityLabel.innerHTML = newQuantity;
+    updateCartQuantity();
   })
 })

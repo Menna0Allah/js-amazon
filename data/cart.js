@@ -49,3 +49,16 @@ export function calculateCartQuantity(){
   return cartQuantity;
   // make it return to use it to put it in html element
 }
+
+export function updateQuantity(productId, newQuantity) {
+  let matchingItem;
+
+  cart.forEach((cartItem) => {
+    if (productId === cartItem.productId) {
+      matchingItem = cartItem;
+    }
+  });
+
+  matchingItem.quantity = newQuantity;
+  saveToStorage();
+}
