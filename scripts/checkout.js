@@ -143,3 +143,5 @@ document.querySelectorAll('.save-quantity-link').forEach((saveButton) => {
     updateCartQuantity();
   })
 })
+
+console.log(dayjs().add(7, 'days').format('dddd, MMMM D'))
