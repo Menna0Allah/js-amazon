@@ -3,7 +3,7 @@ import { products, getProduct } from "../../data/products.js";
 import { formatPrice } from "../utils/money.js";
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
 import { deliveryOptions, getDeliveryOption } from "../../data/deliveryOptions.js";
-
+import { renderPaymentSummery } from "./paymentSummery.js";
 
 export function renderOrderSummery(){
   let cartHTML= '';
@@ -97,6 +97,7 @@ export function renderOrderSummery(){
       const deleteItemId = deleteButton.dataset.deleteId; 
       removeItem(deleteItemId);
       document.querySelector(`.js-cart-container-${deleteItemId}`).remove();
+      renderPaymentSummery();
       updateCartQuantity();
       
       // call it when click delete
@@ -144,6 +145,7 @@ export function renderOrderSummery(){
       const {productId, deliveryOptionId} = element.dataset;
       updateDeliveryOption(productId,deliveryOptionId);
       renderOrderSummery();
+      renderPaymentSummery();
     })
   })
 }
