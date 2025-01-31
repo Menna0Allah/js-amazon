@@ -31,7 +31,7 @@ export function renderOrderSummery(){
                     ${matching.name}
                   </div>
                   <div class="product-price">
-                    $${formatPrice(matching.priceCents)}
+                    ${matching.getPrice()}
                   </div>
                   <div class="product-quantity">
                     <span>
